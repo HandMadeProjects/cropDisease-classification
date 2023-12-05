@@ -1,5 +1,9 @@
 # pip install tensorflow
 
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+tf.enable_eager_execution()
+
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
@@ -9,7 +13,7 @@ __classNames = [ "Bacterial Blight", "Healthy", "Red Rot" ]
 
 
 # Load the saved model
-saved_model = load_model("sugarcane_disease_model.h5")
+saved_model = load_model("model_folder\sugarcane_disease_model.h5")
 
 # Load an example image for inference
 
@@ -25,9 +29,9 @@ Red_Rot_img_path = ['test_img_folder\Red Rot\S_RR (12).JPG', 'test_img_folder\Re
 
 # select img_path
 
-img_path = Bacterial_Blight_img_path[0]
+# img_path = Bacterial_Blight_img_path[0]
 # img_path = Healthy_img_path[0]
-# img_path = Red_Rot_img_path[0]
+img_path = Red_Rot_img_path[0]
 
 
 img = image.load_img(img_path, target_size=image_size)
