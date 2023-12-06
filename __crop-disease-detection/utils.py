@@ -1,6 +1,8 @@
 # pip install tensorflow
+# python -m pip install --no-cache-dir tensorflow
 
-# tf.compat.v1.disable_v2_behavior
+# pip install Flask
+
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()

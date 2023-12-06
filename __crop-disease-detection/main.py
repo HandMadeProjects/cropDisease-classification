@@ -1,9 +1,13 @@
+from flask_ngrok import run_with_ngrok
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import os
 
 from utils import  cottonmodel, sugarcanemodel, tomatomodel, get_model_details
 
 app = Flask(__name__)
+run_with_ngrok(app)
+
 
 # Define the upload folder
 UPLOAD_FOLDER = 'static/uploaded_images'
@@ -120,6 +124,7 @@ if __name__ == '__main__':
     # Ensure the upload folder exists
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # app.run(debug=True)
+    app.run()
 
     # for Docker
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    # app.run(debug=True, host="0.0.0.0", port=5000)
