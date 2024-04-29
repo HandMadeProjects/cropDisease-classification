@@ -1,9 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+import getpass
 import os
+
+from pyngrok import ngrok, conf
 
 from utils import  cottonmodel, sugarcanemodel, tomatomodel, get_model_details
 
 app = Flask(__name__)
+
+
+# Open a ngrok tunnel to the HTTP server
+public_url = ngrok.connect(5000).public_url
+print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/\"".format(public_url, 5000))
+
+# Update any base URLs to use the public ngrok URL
+app.config["BASE_URL"] = public_url
+
+
 
 # Define the upload folder
 UPLOAD_FOLDER = 'static/uploaded_images'
@@ -122,4 +135,6 @@ if __name__ == '__main__':
     # app.run(debug=True)
 
     # for Docker
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    # app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(port=5000, use_reloader=False)
+
