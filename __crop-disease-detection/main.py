@@ -1,4 +1,7 @@
-from flask_ngrok import run_with_ngrok
+# from flask_ngrok import run_with_ngrok
+from pyngrok import ngrok, conf
+import getpass
+
 
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import os
@@ -6,7 +9,17 @@ import os
 from utils import  cottonmodel, sugarcanemodel, tomatomodel, get_model_details
 
 app = Flask(__name__)
-run_with_ngrok(app)
+# run_with_ngrok(app)
+
+# Open a ngrok tunnel to the HTTP server
+public_url = ngrok.connect(5000).public_url
+print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}/\"".format(public_url, 5000))
+
+# Update any base URLs to use the public ngrok URL
+app.config["BASE_URL"] = public_url
+
+# ... Update inbound traffic via APIs to use the public-facing ngrok URL
+
 
 
 # Define the upload folder
@@ -124,7 +137,9 @@ if __name__ == '__main__':
     # Ensure the upload folder exists
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # app.run(debug=True)
-    app.run()
+    # app.run()
+    app.run(port=5000, use_reloader=False)
+
 
     # for Docker
     # app.run(debug=True, host="0.0.0.0", port=5000)
